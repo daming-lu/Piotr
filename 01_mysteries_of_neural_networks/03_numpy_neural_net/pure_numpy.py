@@ -19,6 +19,7 @@ from keras import regularizers
 
 from sklearn.metrics import accuracy_score
 
+# original NN
 # NN_ARCHITECTURE = [
 #     {"input_dim": 2, "output_dim": 25, "activation": "relu"},
 #     {"input_dim": 25, "output_dim": 50, "activation": "relu"},
@@ -27,6 +28,7 @@ from sklearn.metrics import accuracy_score
 #     {"input_dim": 25, "output_dim": 1, "activation": "sigmoid"},
 # ]
 
+# small NN
 NN_ARCHITECTURE = [
     {"input_dim": 2, "output_dim": 4, "activation": "relu"},
     {"input_dim": 4, "output_dim": 6, "activation": "relu"},
@@ -35,6 +37,73 @@ NN_ARCHITECTURE = [
     {"input_dim": 4, "output_dim": 1, "activation": "sigmoid"},
 ]
 
+# large NN
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 1, "activation": "sigmoid"},
+# ]
+
+# 1 more layer NN
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 25, "activation": "relu"},
+#     {"input_dim": 25, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 25, "activation": "relu"},
+#     {"input_dim": 25, "output_dim": 1, "activation": "sigmoid"},
+# ]
+
+# 1 more layer but wider NN
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 25, "activation": "relu"},
+#     {"input_dim": 25, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 50, "activation": "relu"},
+#     {"input_dim": 50, "output_dim": 25, "activation": "relu"},
+#     {"input_dim": 25, "output_dim": 1, "activation": "sigmoid"},
+# ]
+
+# only 3 layers but wide from the beginning NN
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
+# ]
+
+# same as above, but add layers to 5
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
+# ]
+
+
+'''
+10000 : 0.46  small config
+
+10000 : 0.85 original config
+Test set accuracy: 0.85 - David
+
+10000 : 0.96 large config
+Test set accuracy: 0.96 - David
+
+10000 : 0.86 one more layer than original config
+Test set accuracy: 0.86 - David
+
+10000 : 0.87 one more layer than original but wider config
+Test set accuracy: 0.87 - David
+
+10000 : 0.89 only 3 layers but wide from the beginning config
+Test set accuracy: 0.89 - David
+
+10000 : 0.98 wider from the beginner, deeper than ever
+Test set accuracy: 0.98 - David
+'''
 
 def init_layers(nn_architecture, seed = 99):
     # random seed initiation
@@ -270,31 +339,45 @@ def make_plot(X, y, plot_name, file_name=None, XX=None, YY=None, preds=None, dar
         plt.savefig(file_name)
         plt.close()
 
-make_plot(X, y, "Dataset_DM",file_name='haha.png')
-
-
-# # Training
-# params_values = train(np.transpose(X_train), np.transpose(y_train.reshape((y_train.shape[0], 1))), NN_ARCHITECTURE, 10000, 0.01)
-# # Prediction
-# Y_test_hat, _ = full_forward_propagation(np.transpose(X_test), params_values, NN_ARCHITECTURE)
-#
-# Accuracy achieved on the test set
-# acc_test = get_accuracy_value(Y_test_hat, np.transpose(y_test.reshape((y_test.shape[0], 1))))
-# print("Test set accuracy: {:.2f} - David".format(acc_test))
-import pdb;pdb.set_trace()
-def callback_numpy_plot(index, params):
-    plot_title = "NumPy Model - It: {:05}".format(index)
-    file_name = "numpy_model_{:05}.png".format(index//50)
-    file_path = os.path.join('./', file_name)
-    prediction_probs, _ = full_forward_propagation(np.transpose(grid_2d), params, NN_ARCHITECTURE)
-    prediction_probs = prediction_probs.reshape(prediction_probs.shape[1], 1)
-    make_plot(X_test, y_test, plot_title, file_name=file_path, XX=XX, YY=YY, preds=prediction_probs, dark=True)
+make_plot(X, y, "Dataset_DM",file_name='dataset_dm.png')
 
 
 # Training
-params_values = train(np.transpose(X_train), np.transpose(y_train.reshape((y_train.shape[0], 1))), NN_ARCHITECTURE, 10000, 0.01, False, callback_numpy_plot)
+params_values = train(np.transpose(X_train), np.transpose(y_train.reshape((y_train.shape[0], 1))), NN_ARCHITECTURE, 5000, 0.01)
+# Prediction
+Y_test_hat, _ = full_forward_propagation(np.transpose(X_test), params_values, NN_ARCHITECTURE)
 
-prediction_probs_numpy, _ = full_forward_propagation(np.transpose(grid_2d), params_values, NN_ARCHITECTURE)
-prediction_probs_numpy = prediction_probs_numpy.reshape(prediction_probs_numpy.shape[1], 1)
+# Accuracy achieved on the test set
+acc_test = get_accuracy_value(Y_test_hat, np.transpose(y_test.reshape((y_test.shape[0], 1))))
+print("Test set accuracy: {:.2f} - David".format(acc_test))
+import pdb;pdb.set_trace()
 
-make_plot(X_test, y_test, "NumPy Model", file_name=None, XX=XX, YY=YY, preds=prediction_probs_numpy)
+# >>> with plot
+# boundary of the graph
+# GRID_X_START = -1.5
+# GRID_X_END = 2.5
+# GRID_Y_START = -1.0
+# GRID_Y_END = 2
+# # output directory (the folder must be created on the drive)
+# OUTPUT_DIR = "./binary_classification_vizualizations/"
+#
+# grid = np.mgrid[GRID_X_START:GRID_X_END:100j,GRID_X_START:GRID_Y_END:100j]
+# grid_2d = grid.reshape(2, -1).T
+# XX, YY = grid
+#
+# def callback_numpy_plot(index, params):
+#     plot_title = "NumPy Model - It: {:05}".format(index)
+#     file_name = "numpy_model_{:05}.png".format(index//50)
+#     file_path = os.path.join('./', file_name)
+#     prediction_probs, _ = full_forward_propagation(np.transpose(grid_2d), params, NN_ARCHITECTURE)
+#     prediction_probs = prediction_probs.reshape(prediction_probs.shape[1], 1)
+#     make_plot(X_test, y_test, plot_title, file_name=file_path, XX=XX, YY=YY, preds=prediction_probs, dark=True)
+#
+#
+# # Training
+# params_values = train(np.transpose(X_train), np.transpose(y_train.reshape((y_train.shape[0], 1))), NN_ARCHITECTURE, 10000, 0.01, False, callback_numpy_plot)
+#
+# prediction_probs_numpy, _ = full_forward_propagation(np.transpose(grid_2d), params_values, NN_ARCHITECTURE)
+# prediction_probs_numpy = prediction_probs_numpy.reshape(prediction_probs_numpy.shape[1], 1)
+#
+# make_plot(X_test, y_test, "NumPy Model", file_name=None, XX=XX, YY=YY, preds=prediction_probs_numpy)
