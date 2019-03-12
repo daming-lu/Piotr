@@ -3,6 +3,7 @@ from IPython.display import Image
 
 import os
 from sklearn.datasets import make_moons
+from sklearn.datasets import make_blobs
 from sklearn.model_selection import train_test_split
 
 import seaborn as sns
@@ -29,13 +30,13 @@ from sklearn.metrics import accuracy_score
 # ]
 
 # small NN
-NN_ARCHITECTURE = [
-    {"input_dim": 2, "output_dim": 4, "activation": "relu"},
-    {"input_dim": 4, "output_dim": 6, "activation": "relu"},
-    {"input_dim": 6, "output_dim": 6, "activation": "relu"},
-    {"input_dim": 6, "output_dim": 4, "activation": "relu"},
-    {"input_dim": 4, "output_dim": 1, "activation": "sigmoid"},
-]
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 4, "activation": "relu"},
+#     {"input_dim": 4, "output_dim": 6, "activation": "relu"},
+#     {"input_dim": 6, "output_dim": 6, "activation": "relu"},
+#     {"input_dim": 6, "output_dim": 4, "activation": "relu"},
+#     {"input_dim": 4, "output_dim": 1, "activation": "sigmoid"},
+# ]
 
 # large NN
 # NN_ARCHITECTURE = [
@@ -74,13 +75,13 @@ NN_ARCHITECTURE = [
 # ]
 
 # same as above, but add layers to 5
-# NN_ARCHITECTURE = [
-#     {"input_dim": 2, "output_dim": 100, "activation": "relu"},
-#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-#     {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
-# ]
+NN_ARCHITECTURE = [
+    {"input_dim": 2, "output_dim": 100, "activation": "relu"},
+    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+    {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
+]
 
 
 '''
@@ -317,7 +318,11 @@ N_SAMPLES = 1000
 TEST_SIZE = 0.1
 
 # the moons like BaGua
-X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
+# X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
+
+# 2 blobs
+X, y = make_blobs(n_samples=1000, centers=2, n_features=2)
+import pdb;pdb.set_trace()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=42)
 
 def make_plot(X, y, plot_name, file_name=None, XX=None, YY=None, preds=None, dark=False):
@@ -339,7 +344,7 @@ def make_plot(X, y, plot_name, file_name=None, XX=None, YY=None, preds=None, dar
         plt.savefig(file_name)
         plt.close()
 
-make_plot(X, y, "Dataset_DM",file_name='dataset_dm.png')
+make_plot(X, y, "Dataset_DM",file_name='2_blobs.png')
 
 
 # Training
