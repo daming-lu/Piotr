@@ -4,6 +4,7 @@ from IPython.display import Image
 import os
 from sklearn.datasets import make_moons
 from sklearn.datasets import make_blobs
+from sklearn.datasets import make_circles
 from sklearn.model_selection import train_test_split
 
 import seaborn as sns
@@ -75,14 +76,20 @@ from sklearn.metrics import accuracy_score
 # ]
 
 # same as above, but add layers to 5
-NN_ARCHITECTURE = [
-    {"input_dim": 2, "output_dim": 100, "activation": "relu"},
-    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-    {"input_dim": 100, "output_dim": 100, "activation": "relu"},
-    {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
-]
+# NN_ARCHITECTURE = [
+#     {"input_dim": 2, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 100, "activation": "relu"},
+#     {"input_dim": 100, "output_dim": 1, "activation": "sigmoid"},
+# ]
 
+# only 3 layers
+NN_ARCHITECTURE = [
+    {"input_dim": 2, "output_dim": 10, "activation": "relu"},
+    {"input_dim": 10, "output_dim": 10, "activation": "relu"},
+    {"input_dim": 10, "output_dim": 1, "activation": "sigmoid"},
+]
 
 '''
 10000 : 0.46  small config
@@ -321,7 +328,11 @@ TEST_SIZE = 0.1
 # X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
 
 # 2 blobs
-X, y = make_blobs(n_samples=1000, centers=2, n_features=2)
+X, y = make_blobs(n_samples=N_SAMPLES, centers=[(0,1),(9,1)], n_features=2, cluster_std=2)
+
+# 2 circles
+# X, y = make_circles(n_samples=N_SAMPLES, factor=.3, noise=.05)
+
 import pdb;pdb.set_trace()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=42)
 
