@@ -325,10 +325,10 @@ N_SAMPLES = 1000
 TEST_SIZE = 0.1
 
 # the moons like BaGua
-# X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
+X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
 
 # 2 blobs
-X, y = make_blobs(n_samples=N_SAMPLES, centers=[(0,1),(9,1)], n_features=2, cluster_std=2)
+# X, y = make_blobs(n_samples=N_SAMPLES, centers=[(0,1),(9,1)], n_features=2, cluster_std=2)
 
 # 2 circles
 # X, y = make_circles(n_samples=N_SAMPLES, factor=.3, noise=.05)
