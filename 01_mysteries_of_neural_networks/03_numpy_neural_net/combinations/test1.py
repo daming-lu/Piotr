@@ -23,11 +23,34 @@ class Solution(object):
         print(candidates)
         self.workhorse(res, sol_so_far, candidates, 0, k)
         print(res)
+        return res
 
 obj = Solution()
 # print(obj.combine(8,2))
 res = obj.combine(8,2)
 
+teams = ['Hi5', 'Deeplay', 'Team 3', 'MesaBasket', 'Test Bench', 'CarHops', 'Old Driver', 'WhoKnows']
+
+chosen_pairs = []
 for i in range(1, 8):
     # 7 games each team
-    chosen = set([])
+    chosen = []
+    for p in res:
+        if p[0] in chosen or p[1] in chosen:
+            continue
+        if p not in chosen_pairs:
+            chosen_pairs.append(p)
+            chosen.append(p[0])
+            chosen.append(p[1])
+        if len(chosen) == 8:
+            break
+    # print(chosen)
+    pair = []
+    for cur_p in chosen:
+        # pair.append(cur_p)
+        pair.append(teams[cur_p-1])
+        if len(pair) == 2:
+            print(pair)
+            pair = []
+
+print(len(chosen_pairs))
