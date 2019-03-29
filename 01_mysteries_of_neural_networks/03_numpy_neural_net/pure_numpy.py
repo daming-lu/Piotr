@@ -86,9 +86,9 @@ from sklearn.metrics import accuracy_score
 
 # only 3 layers
 NN_ARCHITECTURE = [
-    {"input_dim": 2, "output_dim": 10, "activation": "relu"},
-    {"input_dim": 10, "output_dim": 10, "activation": "relu"},
-    {"input_dim": 10, "output_dim": 1, "activation": "sigmoid"},
+    {"input_dim": 2, "output_dim": 3, "activation": "relu"},
+    {"input_dim": 3, "output_dim": 3, "activation": "relu"},
+    {"input_dim": 3, "output_dim": 1, "activation": "sigmoid"},
 ]
 
 '''
@@ -287,6 +287,7 @@ def update(params_values, grads_values, nn_architecture, learning_rate):
     return params_values;
 
 def train(X, Y, nn_architecture, epochs, learning_rate, verbose=False, callback=None):
+    import pdb;pdb.set_trace()
     # initiation of neural net parameters
     params_values = init_layers(nn_architecture, 2)
     # initiation of lists storing the history
@@ -325,10 +326,10 @@ N_SAMPLES = 1000
 TEST_SIZE = 0.1
 
 # the moons like BaGua
-X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
+# X, y = make_moons(n_samples = N_SAMPLES, noise=0.2, random_state=100)
 
 # 2 blobs
-# X, y = make_blobs(n_samples=N_SAMPLES, centers=[(0,1),(9,1)], n_features=2, cluster_std=2)
+X, y = make_blobs(n_samples=N_SAMPLES, centers=[(0,1),(9,1)], n_features=2, cluster_std=2)
 
 # 2 circles
 # X, y = make_circles(n_samples=N_SAMPLES, factor=.3, noise=.05)
@@ -359,14 +360,25 @@ make_plot(X, y, "Dataset_DM",file_name='2_blobs.png')
 
 
 # Training
-params_values = train(np.transpose(X_train), np.transpose(y_train.reshape((y_train.shape[0], 1))), NN_ARCHITECTURE, 5000, 0.01)
+import pdb;pdb.set_trace()
+params_values = train(
+    np.transpose(X_train),
+    np.transpose(y_train.reshape((y_train.shape[0], 1))),
+    NN_ARCHITECTURE,
+    5000,
+    0.01,
+    verbose=True
+)
+import pdb;pdb.set_trace()
+print('params_values')
+
 # Prediction
 Y_test_hat, _ = full_forward_propagation(np.transpose(X_test), params_values, NN_ARCHITECTURE)
 
 # Accuracy achieved on the test set
 acc_test = get_accuracy_value(Y_test_hat, np.transpose(y_test.reshape((y_test.shape[0], 1))))
 print("Test set accuracy: {:.2f} - David".format(acc_test))
-import pdb;pdb.set_trace()
+# import pdb;pdb.set_trace()
 
 # >>> with plot
 # boundary of the graph
